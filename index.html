@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Para Ana Mayra 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    /* Reset e layout flexível (Original) */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 1em;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffecd2, #ff9a9e); /* Fundo original mantido */
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; /* Para centralizar a carta inicialmente */
+      overflow-y: auto;
+      min-height: 100vh;
+    }
+    @keyframes gradientBG { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+    /* Conteúdo após senha correta (Original) */
+    #content {
+      display: none; /* Inicialmente escondido */
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      text-align: center;
+      background: rgba(255,255,255,0.9);
+      padding: 1.5em;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transform: scale(.8);
+      opacity: 0;
+      animation: fadeInContent 1s ease forwards; /* Renomeado para evitar conflito se houver fadeIn na carta */
+      margin: 1em 0;
+    }
+    @keyframes fadeInContent { from{opacity:0;transform:scale(.8)} to{opacity:1;transform:scale(1)} }
+
+    #content h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2em;
+      margin-bottom: .5em;
+      color: #ff6f91;
+      animation: bounceTitle 1s ease;
+    }
+    @keyframes bounceTitle { 0%{transform:scale(.8);opacity:0} 60%{transform:scale(1.1);opacity:1} 100%{transform:scale(1)} }
+
+    /* Slideshow responsivo (Original) */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      margin-bottom: 1em;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    #slide {
+      position: absolute; /* Adicionado para melhor controle da animação */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%; /* Para preencher o container, object-fit cuidará da proporção */
+      /* max-height: 40vh;  Height 100% do container deve respeitar o container */
+      object-fit: cover;
+      opacity: 1;
+      /* transition: opacity 1s ease-in-out; Removido para usar animações CSS */
+      display: block; /* Mantido */
+    }
+    .slideshow-container { /* Garantir altura para elementos posicionados absolutamente */
+      height: 40vh; /* Definir altura explícita aqui */
+    }
+
+    /* Novas animações para o slideshow */
+    #slide.slide-out-left {
+      animation: slideOutToLeft 0.7s forwards;
+    }
+    #slide.slide-in-from-right {
+      animation: slideInFromRight 0.7s forwards;
+      opacity: 0; /* Começa invisível antes da animação */
+    }
+
+    @keyframes slideOutToLeft {
+      from { transform: translateX(0%); opacity: 1; }
+      to { transform: translateX(-100%); opacity: 0; }
+    }
+    @keyframes slideInFromRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0%); opacity: 1; }
+    }
+
+    .timer-block { font-size: 1.2em; margin: .5em 0; color: #d23f57; }
+    .timer-block span { display: inline-block; font-weight: bold; animation: popNum .5s ease; }
+    @keyframes popNum { 0%{transform:scale(1)} 50%{transform:scale(1.4)} 100%{transform:scale(1)} }
+
+    .totals { margin-top: 1em; font-size: .95em; color: #555; }
+    .totals span { font-weight: bold; color: #d23f57; animation: popNum .5s ease; }
+
+    /* Corações flutuantes (Original - para spawnHeart) */
+    .heart-original { /* Renomeado para evitar conflito com .heart da carta */
+      position: absolute; font-size: 1.2em; color: rgba(255,105,180,0.8); opacity:0; animation:floatUp 4s ease-in forwards; pointer-events:none; 
+    }
+    @keyframes floatUp { 0%{transform:translateY(0) scale(1);opacity:1} 100%{transform:translateY(-150px) scale(1.5);opacity:0} }
+
+    /* Ajustes mobile (Original) */
+    @media(max-width: 480px) {
+      #content { padding: 1em; }
+      .timer-block { font-size: 1em; }
+      /* Ajustes para a carta em mobile, se necessário */
+      #envelope { margin: 50px auto; transform: scale(0.9); }
+    }
+
+    /* CSS da Animação da Carta */
+    .envlope-wrapper {
+      height: 380px; /* Altura para conter o envelope, pode precisar de ajuste */
+      display: flex; /* Para centralizar o envelope dentro dele */
+      align-items: center;
+      justify-content: center;
+      /* Removido o botão original #btn */
+    }
+
+    #envelope {
+      /* margin: 150px;  Controlado pelo flex do body e wrapper */
+      position: relative;
+      width: 280px;
+      height: 180px;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+      /* margin-left: auto; margin-right: auto; Controlado pelo flex */
+      /* top: 150px; Controlado pelo flex */
+      background-color: #f9c5c8;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      cursor: pointer; /* Adicionado para indicar que é clicável */
+    }
+
+    .front {
+      position: absolute;
+      width: 0;
+      height: 0;
+      z-index: 3;
+    }
+
+    .flap {
+      border-left: 140px solid transparent;
+      border-right: 140px solid transparent;
+      border-bottom: 82px solid transparent;
+      border-top: 98px solid #ff3333;
+      transform-origin: top;
+      pointer-events: none;
+    }
+
+    .pocket {
+      border-left: 140px solid #ff9999;
+      border-right: 140px solid #ff9999;
+      border-bottom: 90px solid #fd8787;
+      border-top: 90px solid transparent;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+
+    .letter {
+      position: relative;
+      background-color: #f9c5c8; /* Cor de fundo da carta interna */
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      height: 90%;
+      top: 5%;
+      border-radius: 6px;
+      box-shadow: 0 2px 26px rgba(0, 0, 0, 0.12);
+    }
+
+    .letter:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 25%,
+        rgba(239, 215, 239, 0.7) 55%,
+        #eed7ef 100%
+      );
+    }
+
+    .words {
+      position: absolute;
+      left: 10%;
+      width: 80%;
+      height: 14%;
+      background-color: #fdb7ba; /* Cor das linhas de texto na carta */
+    }
+
+    .words.line1 { top: 15%; width: 20%; height: 7%; }
+    .words.line2 { top: 30%; }
+    .words.line3 { top: 50%; }
+    .words.line4 { top: 70%; }
+
+    .open .flap {
+      transform: rotateX(180deg);
+      transition: transform 0.4s ease, z-index 0.6s;
+      z-index: 1;
+    }
+
+    .close .flap {
+      transform: rotateX(0deg);
+      transition: transform 0.4s 0.6s ease, z-index 1s;
+      z-index: 5;
+    }
+
+    .close .letter {
+      transform: translateY(0px);
+      transition: transform 0.4s ease, z-index 1s;
+      z-index: 1;
+    }
+
+    .open .letter {
+      transform: translateY(-60px);
+      transition: transform 0.4s 0.6s ease, z-index 0.6s;
+      z-index: 2;
+    }
+
+    .hearts { /* Corações da animação da carta */
+      position: absolute;
+      top: 90px;
+      left: 0;
+      right: 0;
+      z-index: 2;
+    }
+
+    .heart { /* Estilo para os corações da carta */
+      position: absolute;
+      bottom: 0;
+      right: 10%;
+      pointer-events: none;
+    }
+
+    .heart:before,
+    .heart:after {
+      position: absolute;
+      content: "";
+      left: 50px;
+      top: 0;
+      width: 50px;
+      height: 80px;
+      background: #d00000;
+      border-radius: 50px 50px 0 0;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+      pointer-events: none;
+    }
+
+    .heart:after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    .close .heart { /* Corações da carta inicialmente escondidos */
+      opacity: 0;
+      animation: none;
+    }
+    /* As classes .a1, .a2, .a3 controlam os corações que saem da carta quando ela abre */
+    .open .a1 { /* Garante que os corações da carta só animem quando a classe .open for aplicada */
+      left: 20%; transform: scale(0.6); opacity: 1;
+      animation: slideUpHearts 4s linear 1, sideSwayHearts 2s ease-in-out 4 alternate;
+      animation-fill-mode: forwards; animation-delay: 0.7s;
+    }
+    .open .a2 {
+      left: 55%; transform: scale(1); opacity: 1;
+      animation: slideUpHearts 5s linear 1, sideSwayHearts 4s ease-in-out 2 alternate;
+      animation-fill-mode: forwards; animation-delay: 0.7s;
+    }
+    .open .a3 {
+      left: 10%; transform: scale(0.8); opacity: 1;
+      animation: slideUpHearts 7s linear 1, sideSwayHearts 2s ease-in-out 6 alternate;
+      animation-fill-mode: forwards; animation-delay: 0.7s;
+    }
+
+    @keyframes slideUpHearts { 0% { top: 0; } 100% { top: -600px; } }
+    @keyframes sideSwayHearts { 0% { margin-left: 0px; } 100% { margin-left: 50px; } }
+    /* Fim do CSS da Animação da Carta */
+
+  </style>
+</head>
+<body>
+
+  <div class="envlope-wrapper">
+    <div id="envelope" class="close"> <!-- Inicia fechado -->
+      <div class="front flap"></div>
+      <div class="front pocket"></div>
+      <div class="letter">
+        <div class="words line1"></div>
+        <div class="words line2"></div>
+        <div class="words line3"></div>
+        <div class="words line4"></div>
+      </div>
+      <div class="hearts"> <!-- Contêiner para os corações que saem da carta -->
+        <div class="heart a1"></div>
+        <div class="heart a2"></div>
+        <div class="heart a3"></div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="backgroundMusic" src="fotos/Christina Perri - A Thousand Years [Official Music Video].mp3" preload="auto"></audio>
+
+  <div id="content">
+    <h1>💖 Juntos desde 05/11/2022 💖</h1>
+    <p id="text-line1">Oi, meu amor!<br>
+    Hoje é um dia especial, e eu quero te lembrar o quanto você é importante para mim. Cada dia ao seu lado é uma nova aventura, e eu sou grato por cada momento que passamos juntos.</p>
+    <p id="text-line2">Você é a razão do meu sorriso, e eu espero que este site traga um sorriso ao seu rosto também. Vamos continuar criando memórias incríveis juntos!</p>
+    <div class="slideshow-container">
+      <img id="slide" src="./fotos/foto1.jpg" alt="Slide">
+    </div>
+    <div class="timer-block" id="ymdhms"></div>
+    <div class="totals">
+      Total de <span id="totalDays"></span> dias,<br>
+      <span id="totalHours"></span> horas e <span id="totalMinutes"></span> minutos juntos!
+    </div>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+  <script>
+    console.log('Document ready.');
+    const contentDiv = document.getElementById('content'); // Renomeado para evitar conflito com jQuery content
+    const slideElem = document.getElementById('slide');
+    const slides = [
+      "./fotos/foto1.jpg",
+      "./fotos/foto2.jpg",
+      "./fotos/foto3.jpg",
+      "./fotos/foto4.jpg",
+      "./fotos/foto5.jpg",
+      "./fotos/foto6.jpg",
+      "./fotos/foto7.jpg",
+      "./fotos/foto8.jpg",
+      "./fotos/foto9.jpg",
+      "./fotos/foto10.jpg",
+      "./fotos/IMG-20250425-WA0002.jpg",
+      "./fotos/IMG-20250526-WA0028.jpg",
+      "./fotos/IMG-20250526-WA0029.jpg",
+      "./fotos/IMG-20250526-WA0030.jpg",
+      "./fotos/IMG-20250526-WA0031.jpg",
+      "./fotos/IMG-20250526-WA0032.jpg",
+      "./fotos/IMG-20250526-WA0033.jpg",
+      "./fotos/IMG-20250526-WA0034.jpg",
+      "./fotos/IMG-20250526-WA0035.jpg",
+      "./fotos/IMG-20250526-WA0036.jpg",
+      "./fotos/IMG-20250526-WA0037.jpg",
+      "./fotos/IMG-20250526-WA0038.jpg",
+      "./fotos/IMG-20250526-WA0039.jpg",
+      "./fotos/IMG-20250526-WA0040.jpg",
+      "./fotos/IMG-20250526-WA0041.jpg",
+      "./fotos/IMG-20250526-WA0042.jpg",
+      "./fotos/IMG-20250526-WA0043.jpg",
+      "./fotos/IMG-20250526-WA0044.jpg",
+      "./fotos/IMG-20250526-WA0045.jpg",
+      "./fotos/IMG-20250526-WA0046.jpg",
+      "./fotos/IMG-20250526-WA0047.jpg",
+      "./fotos/IMG-20250526-WA0048.jpg",
+      "./fotos/IMG-20250526-WA0049.jpg",
+      "./fotos/IMG-20250526-WA0050.jpg",
+      "./fotos/IMG-20250526-WA0051.jpg",
+      "./fotos/IMG-20250526-WA0052.jpg",
+      "./fotos/IMG-20250526-WA0053.jpg",
+      "./fotos/IMG-20250526-WA0054.jpg",
+      "./fotos/IMG-20250526-WA0055.jpg",
+      "./fotos/IMG-20250526-WA0056.jpg",
+      "./fotos/IMG-20250526-WA0057.jpg",
+      "./fotos/IMG-20250526-WA0058.jpg",
+      "./fotos/IMG-20250526-WA0059.jpg",
+      "./fotos/IMG-20250526-WA0060.jpg",
+      "./fotos/IMG-20250526-WA0061.jpg",
+      "./fotos/IMG-20250526-WA0062.jpg",
+      "./fotos/IMG-20250526-WA0063.jpg",
+      "./fotos/IMG-20250526-WA0064.jpg",
+      "./fotos/IMG-20250526-WA0065.jpg",
+      "./fotos/IMG-20250526-WA0066.jpg",
+      "./fotos/IMG-20250526-WA0067.jpg",
+      "./fotos/IMG-20250526-WA0068.jpg",
+      "./fotos/IMG-20250526-WA0069.jpg",
+      "./fotos/IMG-20250526-WA0070.jpg",
+      "./fotos/IMG-20250526-WA0071.jpg",
+      "./fotos/IMG-20250526-WA0072.jpg",
+      "./fotos/IMG-20250526-WA0073.jpg",
+      "./fotos/IMG-20250526-WA0074.jpg",
+      "./fotos/IMG-20250526-WA0075.jpg",
+      "./fotos/IMG-20250526-WA0076.jpg",
+      "./fotos/IMG-20250526-WA0077.jpg",
+      "./fotos/IMG-20250526-WA0078.jpg",
+      "./fotos/IMG-20250526-WA0079.jpg",
+      "./fotos/IMG-20250526-WA0080.jpg",
+      "./fotos/IMG-20250526-WA0081.jpg",
+      "./fotos/IMG-20250526-WA0082.jpg",
+      "./fotos/IMG-20250526-WA0083.jpg",
+      "./fotos/IMG-20250526-WA0084.jpg",
+      "./fotos/IMG-20250526-WA0085.jpg",
+      "./fotos/IMG-20250526-WA0086.jpg",
+      "./fotos/IMG-20250526-WA0087.jpg",
+      "./fotos/IMG-20250526-WA0088.jpg",
+      "./fotos/IMG-20250526-WA0089.jpg",
+      "./fotos/IMG-20250526-WA0090.jpg",
+      "./fotos/IMG-20250526-WA0091.jpg",
+      "./fotos/IMG-20250526-WA0092.jpg",
+      "./fotos/IMG-20250526-WA0093.jpg",
+      "./fotos/IMG-20250526-WA0094.jpg",
+      "./fotos/IMG-20250526-WA0095.jpg",
+      "./fotos/IMG-20250526-WA0096.jpg",
+      "./fotos/IMG-20250526-WA0097.jpg",
+      "./fotos/IMG-20250526-WA0098.jpg",
+      "./fotos/IMG-20250526-WA0099.jpg",
+      "./fotos/IMG-20250526-WA0100.jpg",
+      "./fotos/IMG-20250526-WA0101.jpg",
+      "./fotos/IMG-20250526-WA0102.jpg",
+      "./fotos/IMG-20250526-WA0103.jpg",
+      "./fotos/IMG-20250526-WA0104.jpg",
+      "./fotos/IMG-20250526-WA0105.jpg",
+      "./fotos/IMG-20250526-WA0106.jpg",
+      "./fotos/IMG-20250526-WA0107.jpg",
+      "./fotos/IMG-20250526-WA0108.jpg",
+      "./fotos/IMG-20250526-WA0109.jpg",
+      "./fotos/IMG-20250526-WA0110.jpg",
+      "./fotos/IMG-20250526-WA0111.jpg",
+      "./fotos/IMG-20250526-WA0112.jpg",
+      "./fotos/IMG-20250526-WA0113.jpg",
+      "./fotos/IMG-20250526-WA0114.jpg",
+      "./fotos/IMG-20250526-WA0115.jpg",
+      "./fotos/IMG-20250526-WA0116.jpg",
+      "./fotos/IMG-20250526-WA0117.jpg",
+      "./fotos/IMG-20250526-WA0118.jpg",
+      "./fotos/IMG-20250526-WA0119.jpg",
+      "./fotos/IMG-20250526-WA0120.jpg",
+      "./fotos/IMG-20250526-WA0121.jpg",
+      "./fotos/IMG-20250526-WA0122.jpg",
+      "./fotos/IMG-20250526-WA0123.jpg",
+      "./fotos/IMG-20250526-WA0124.jpg"
+    ];
+    let currentSlide = 0; // Renomeado para evitar conflito
+
+    // Função para corações flutuantes aleatórios (original)
+    function spawnHeartOriginal() {
+      const h = document.createElement('div'); 
+      h.className = 'heart-original'; // Usa a classe renomeada
+      h.textContent = '❤️';
+      h.style.left = Math.random()*80+10 + '%'; 
+      h.style.bottom = '0px';
+      document.body.appendChild(h);
+      h.addEventListener('animationend', ()=>h.remove());
+    }
+
+    function nextSlide() {
+      if (slideElem.classList.contains('slide-out-left') || slideElem.classList.contains('slide-in-from-right')) {
+        // Animação anterior ainda em progresso, evita sobreposição
+        return;
+      }
+
+      slideElem.classList.add('slide-out-left');
+
+      slideElem.addEventListener('animationend', function handleOutAnimation() {
+        slideElem.removeEventListener('animationend', handleOutAnimation); // Limpa o listener
+
+        currentSlide = (currentSlide + 1) % slides.length;
+        slideElem.src = slides[currentSlide];
+        
+        // Prepara para a animação de entrada
+        slideElem.classList.remove('slide-out-left');
+        // Força reflow para garantir que a animação de entrada reinicie corretamente
+        void slideElem.offsetWidth; 
+        slideElem.classList.add('slide-in-from-right');
+
+        slideElem.addEventListener('animationend', function handleInAnimation() {
+          slideElem.removeEventListener('animationend', handleInAnimation);
+          slideElem.classList.remove('slide-in-from-right');
+        }, { once: true }); // { once: true } para auto-remover após disparar
+
+      }, { once: true }); // { once: true } para auto-remover após disparar
+    }
+
+    const ymdhmsDiv = document.getElementById('ymdhms');
+    const totalDaysElem = document.getElementById('totalDays'); // Renomeado
+    const totalHoursElem = document.getElementById('totalHours'); // Renomeado
+    const totalMinutesElem = document.getElementById('totalMinutes'); // Renomeado
+    const startDate = new Date(2022, 10, 5); // Renomeado
+
+    function pad(n) { return n.toString().padStart(2,'0'); }
+    function updateTimers() {
+      const now = new Date();
+      const diffMs = now - startDate;
+      const diffSec = Math.floor(diffMs/1000);
+      const diffMin = Math.floor(diffSec/60);
+      const diffHrs = Math.floor(diffMin/60);
+      const diffDays = Math.floor(diffHrs/24);
+      totalDaysElem.textContent = diffDays;
+      totalHoursElem.textContent = diffHrs;
+      totalMinutesElem.textContent = diffMin;
+      let years = now.getFullYear() - startDate.getFullYear();
+      let months = now.getMonth() - startDate.getMonth();
+      let days   = now.getDate()  - startDate.getDate();
+      if(days<0){months--; days += new Date(now.getFullYear(),now.getMonth(),0).getDate();}
+      if(months<0){years--; months+=12;}
+      const remSec = diffSec - diffDays*86400;
+      const hrs    = Math.floor(remSec/3600);
+      const mins   = Math.floor((remSec%3600)/60);
+      const secs   = remSec%60;
+      ymdhmsDiv.innerHTML = `${years} <span>anos</span>, ${months} <span>meses</span>, ${days} <span>dias</span>,<br>${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+      if(Math.random()<0.2 && contentDiv.style.display === 'block') spawnHeartOriginal();
+    }
+
+    // setInterval(spawnHeartOriginal, 2000); // Desativado para tela inicial
+
+    // Função para efeito de digitação (corrigida para <br>)
+    function typeWriterEffect(element, textToType, speed, callback) {
+        let i = 0;
+        element.innerHTML = ''; // Limpa o conteúdo original
+        
+        function type() {
+            if (i < textToType.length) {
+                // Verifica se o próximo trecho é <br> (case insensitive)
+                if (textToType.substring(i, i + 4).toLowerCase() === '<br>') {
+                    element.innerHTML += '<br>';
+                    i += 4; // Pula os 4 caracteres de '<br>'
+                } else {
+                    element.innerHTML += textToType.charAt(i);
+                    i++;
+                }
+                setTimeout(type, speed);
+            } else {
+                if (callback) callback();
+            }
+        }
+        type();
+    }
+    
+    // Função para criar corações na posição do clique
+    function spawnHeartAtPosition(x, y) {
+        const h = document.createElement('div');
+        h.className = 'heart-original'; // Reutiliza o estilo dos corações originais
+        h.textContent = '💖'; // Pode variar o emoji
+        h.style.position = 'fixed'; // Para posicionar em relação à viewport
+        h.style.left = (x - 10) + 'px'; // Ajuste para centralizar o coração no cursor
+        h.style.top = (y - 10) + 'px';
+        // Remove bottom e random left da spawnHeartOriginal
+        document.body.appendChild(h);
+        h.addEventListener('animationend', () => h.remove());
+    }
+
+
+    // Lógica da Carta e Integração
+    $(document).ready(function() {
+        var envelope = $('#envelope');
+
+        envelope.click(function() {
+            if (envelope.hasClass("close")) { // Só pede senha se estiver fechada
+                const senha = prompt('Qual é o nosso apelido?');
+                if (senha && senha.toLowerCase() === 'mozi') {
+                    envelope.removeClass("close").addClass("open");
+
+                    setTimeout(function() {
+                        $('.envlope-wrapper').fadeOut(600, function() {
+                            $(this).remove(); 
+                            
+                            contentDiv.style.display = 'block'; 
+                            updateTimers(); 
+                            setInterval(updateTimers, 1000);
+                            setInterval(nextSlide, 3000);
+                            setInterval(spawnHeartOriginal, 1800); // Corações automáticos
+
+                            // Adiciona listener para corações por clique
+                            document.body.addEventListener('click', function(event) {
+                                // Verifica se o clique não foi em um elemento interativo dentro de #contentDiv
+                                if (contentDiv.contains(event.target) && (event.target.tagName === 'BUTTON' || event.target.tagName === 'A' || $(event.target).closest('button, a').length)) {
+                                    return; 
+                                }
+                                spawnHeartAtPosition(event.clientX, event.clientY);
+                            });
+
+                            const music = document.getElementById('backgroundMusic');
+                            if (music) {
+                                music.play().catch(error => console.error("Erro ao tocar música:", error));
+                            }
+
+                            // Inicia efeito de digitação
+                            const p1 = document.getElementById('text-line1');
+                            const p2 = document.getElementById('text-line2');
+                            const text1 = p1.innerHTML; // Guarda o texto original (com <br>)
+                            const text2 = p2.innerHTML;
+                            
+                            // Limpa o conteúdo para o efeito de digitação (innerHTML para manter <br>)
+                            p1.innerHTML = ''; 
+                            p2.innerHTML = '';
+
+                            typeWriterEffect(p1, text1, 75, function() { // 75ms por caractere
+                                setTimeout(function() { // Pequeno delay antes de começar o próximo
+                                    typeWriterEffect(p2, text2, 75);
+                                }, 500);
+                            });
+                        });
+                    }, 1000); 
+                } else if (senha !== null) { 
+                    alert('Senha incorreta!');
+                }
+            }
+        });
+    });
+  </script>
+
+</body>
+</html>
