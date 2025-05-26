@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Para Ana Mayra 💖</title>
+  <title>Para Ana Mayra 🖤</title>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
   <style>
     /* Reset e layout flexível (Original) */
@@ -12,7 +12,7 @@
       margin: 0;
       padding: 1em;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffecd2, #ff9a9e); /* Fundo original mantido */
+      background: linear-gradient(-45deg, hotpink, black, lightblue, purple); /* Novo gradiente de cores */
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
       display: flex;
@@ -68,21 +68,21 @@
       width: 100%;
       height: 100%; /* Para preencher o container, object-fit cuidará da proporção */
       /* max-height: 40vh;  Height 100% do container deve respeitar o container */
-      object-fit: cover;
+      object-fit: contain; /* Alterado de cover para contain */
       opacity: 1;
       /* transition: opacity 1s ease-in-out; Removido para usar animações CSS */
       display: block; /* Mantido */
     }
     .slideshow-container { /* Garantir altura para elementos posicionados absolutamente */
-      height: 40vh; /* Definir altura explícita aqui */
+      height: 50vh; /* Aumentada a altura para 50vh */
     }
 
-    /* Novas animações para o slideshow */
+    /* Novas animações para o slideshow (mais rápidas) */
     #slide.slide-out-left {
-      animation: slideOutToLeft 0.7s forwards;
+      animation: slideOutToLeft 0.5s forwards;
     }
     #slide.slide-in-from-right {
-      animation: slideInFromRight 0.7s forwards;
+      animation: slideInFromRight 0.5s forwards;
       opacity: 0; /* Começa invisível antes da animação */
     }
 
@@ -314,7 +314,7 @@
   <audio id="backgroundMusic" src="fotos/Christina Perri - A Thousand Years [Official Music Video].mp3" preload="auto"></audio>
 
   <div id="content">
-    <h1>💖 Juntos desde 05/11/2022 💖</h1>
+    <h1>🖤 Juntos desde 05/11/2022 🖤</h1>
     <p id="text-line1">Oi, meu amor!<br>
     Hoje é um dia especial, e eu quero te lembrar o quanto você é importante para mim. Cada dia ao seu lado é uma nova aventura, e eu sou grato por cada momento que passamos juntos.</p>
     <p id="text-line2">Você é a razão do meu sorriso, e eu espero que este site traga um sorriso ao seu rosto também. Vamos continuar criando memórias incríveis juntos!</p>
@@ -445,15 +445,36 @@
     ];
     let currentSlide = 0; // Renomeado para evitar conflito
 
-    // Função para corações flutuantes aleatórios (original)
-    function spawnHeartOriginal() {
-      const h = document.createElement('div'); 
-      h.className = 'heart-original'; // Usa a classe renomeada
-      h.textContent = '❤️';
-      h.style.left = Math.random()*80+10 + '%'; 
-      h.style.bottom = '0px';
-      document.body.appendChild(h);
-      h.addEventListener('animationend', ()=>h.remove());
+    const floatingItemDetails = [
+        { emoji: '💙', color: 'lightblue' }, 
+        { emoji: '🖤', color: 'black' }, 
+        { emoji: '💜', color: 'purple' },
+        { emoji: '📚', color: '#8B4513' }, // Marrom para livro
+        { emoji: '🎮', color: 'darkgrey' },
+        { emoji: '🍥', color: '#FFB6C1' }, // Rosa claro para narutomaki
+        { emoji: '✨', color: 'gold' },
+        { emoji: '👾', color: '#8A2BE2' }, // Roxo azulado para alien
+        { emoji: '👶', color: '#FFDAB9' }, // Peachpuff para bebê
+        { emoji: '💍', color: 'silver' }
+    ];
+
+    const heartColors = ['lightblue', 'black', 'purple'];
+    const heartEmojis = ['💙', '🖤', '💜'];
+
+
+    // Função para criar elementos flutuantes aleatórios
+    function spawnRandomFloatingItem() {
+      const itemDetail = floatingItemDetails[Math.floor(Math.random() * floatingItemDetails.length)];
+      
+      const el = document.createElement('div'); 
+      el.className = 'heart-original'; // Reutiliza a classe e animação
+      el.textContent = itemDetail.emoji;
+      el.style.color = itemDetail.color;
+      el.style.fontSize = (Math.random() * 0.5 + 1.0) + 'em'; // Tamanho um pouco variado (1.0em a 1.5em)
+      el.style.left = Math.random()*90+5 + '%'; // Distribuição um pouco mais ampla
+      el.style.bottom = '0px';
+      document.body.appendChild(el);
+      el.addEventListener('animationend', ()=>el.remove());
     }
 
     function nextSlide() {
@@ -467,7 +488,15 @@
       slideElem.addEventListener('animationend', function handleOutAnimation() {
         slideElem.removeEventListener('animationend', handleOutAnimation); // Limpa o listener
 
-        currentSlide = (currentSlide + 1) % slides.length;
+        let nextIndex;
+        if (slides.length > 1) {
+          do {
+            nextIndex = Math.floor(Math.random() * slides.length);
+          } while (nextIndex === currentSlide); // Evita repetir a mesma imagem
+        } else {
+          nextIndex = 0; // Se só tiver uma imagem, mostra ela mesma
+        }
+        currentSlide = nextIndex;
         slideElem.src = slides[currentSlide];
         
         // Prepara para a animação de entrada
@@ -539,15 +568,20 @@
         type();
     }
     
-    // Função para criar corações na posição do clique
-    function spawnHeartAtPosition(x, y) {
+    // Função para criar corações (com cores específicas) na posição do clique
+    function spawnClickHeart(x, y) {
+        const randomIndex = Math.floor(Math.random() * heartColors.length);
+        const color = heartColors[randomIndex];
+        const emoji = heartEmojis[randomIndex];
+
         const h = document.createElement('div');
-        h.className = 'heart-original'; // Reutiliza o estilo dos corações originais
-        h.textContent = '💖'; // Pode variar o emoji
-        h.style.position = 'fixed'; // Para posicionar em relação à viewport
-        h.style.left = (x - 10) + 'px'; // Ajuste para centralizar o coração no cursor
+        h.className = 'heart-original'; 
+        h.textContent = emoji;
+        h.style.color = color;
+        h.style.fontSize = (Math.random() * 0.4 + 0.8) + 'em'; // Um pouco menores ao clicar
+        h.style.position = 'fixed'; 
+        h.style.left = (x - 10) + 'px'; 
         h.style.top = (y - 10) + 'px';
-        // Remove bottom e random left da spawnHeartOriginal
         document.body.appendChild(h);
         h.addEventListener('animationend', () => h.remove());
     }
@@ -570,16 +604,15 @@
                             contentDiv.style.display = 'block'; 
                             updateTimers(); 
                             setInterval(updateTimers, 1000);
-                            setInterval(nextSlide, 3000);
-                            setInterval(spawnHeartOriginal, 1800); // Corações automáticos
+                            setInterval(nextSlide, 2000); 
+                            setInterval(spawnRandomFloatingItem, 1500); // Gera um item flutuante aleatório
 
                             // Adiciona listener para corações por clique
                             document.body.addEventListener('click', function(event) {
-                                // Verifica se o clique não foi em um elemento interativo dentro de #contentDiv
                                 if (contentDiv.contains(event.target) && (event.target.tagName === 'BUTTON' || event.target.tagName === 'A' || $(event.target).closest('button, a').length)) {
                                     return; 
                                 }
-                                spawnHeartAtPosition(event.clientX, event.clientY);
+                                spawnClickHeart(event.clientX, event.clientY); // Usa a nova função para cliques
                             });
 
                             const music = document.getElementById('backgroundMusic');
