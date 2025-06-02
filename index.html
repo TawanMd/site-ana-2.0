@@ -6,25 +6,26 @@
   <title>Para Ana Mayra 🖤</title>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
   <style>
-    /* Reset e layout flexível (Original) */
+    /* Reset e layout flexível */
     *, *::before, *::after { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 1em;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(-45deg, hotpink, black, lightblue, purple); /* Novo gradiente de cores */
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      /* FUNDO ESTÁTICO ATUALIZADO: Azul Serenity, Roxo, Preto */
+      background: linear-gradient(-45deg, #92A8D0, purple, black); 
+      /* removida a animação e background-size para gradiente estático */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center; /* Para centralizar a carta inicialmente */
       overflow-y: auto;
       min-height: 100vh;
+      color: #333; /* Cor de texto padrão */
     }
-    @keyframes gradientBG { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    /* @keyframes gradientBG removido */
 
-    /* Conteúdo após senha correta (Original) */
+    /* Conteúdo após o quiz */
     #content {
       display: none; /* Inicialmente escondido */
       width: 100%;
@@ -32,13 +33,13 @@
       max-height: 90vh;
       overflow-y: auto;
       text-align: center;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.92);
       padding: 1.5em;
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       transform: scale(.8);
       opacity: 0;
-      animation: fadeInContent 1s ease forwards; /* Renomeado para evitar conflito se houver fadeIn na carta */
+      animation: fadeInContent 1s ease forwards;
       margin: 1em 0;
     }
     @keyframes fadeInContent { from{opacity:0;transform:scale(.8)} to{opacity:1;transform:scale(1)} }
@@ -52,7 +53,7 @@
     }
     @keyframes bounceTitle { 0%{transform:scale(.8);opacity:0} 60%{transform:scale(1.1);opacity:1} 100%{transform:scale(1)} }
 
-    /* Slideshow responsivo (Original) */
+    /* Slideshow responsivo */
     .slideshow-container {
       position: relative;
       width: 100%;
@@ -60,40 +61,24 @@
       overflow: hidden;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      height: 50vh; 
     }
     #slide {
-      position: absolute; /* Adicionado para melhor controle da animação */
+      position: absolute; 
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%; /* Para preencher o container, object-fit cuidará da proporção */
-      /* max-height: 40vh;  Height 100% do container deve respeitar o container */
-      object-fit: contain; /* Alterado de cover para contain */
+      height: 100%; 
+      object-fit: contain; 
       opacity: 1;
-      /* transition: opacity 1s ease-in-out; Removido para usar animações CSS */
-      display: block; /* Mantido */
-    }
-    .slideshow-container { /* Garantir altura para elementos posicionados absolutamente */
-      height: 50vh; /* Aumentada a altura para 50vh */
+      display: block; 
     }
 
-    /* Novas animações para o slideshow (mais rápidas) */
-    #slide.slide-out-left {
-      animation: slideOutToLeft 0.5s forwards;
-    }
-    #slide.slide-in-from-right {
-      animation: slideInFromRight 0.5s forwards;
-      opacity: 0; /* Começa invisível antes da animação */
-    }
-
-    @keyframes slideOutToLeft {
-      from { transform: translateX(0%); opacity: 1; }
-      to { transform: translateX(-100%); opacity: 0; }
-    }
-    @keyframes slideInFromRight {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0%); opacity: 1; }
-    }
+    /* Animações para o slideshow */
+    #slide.slide-out-left { animation: slideOutToLeft 0.5s forwards; }
+    #slide.slide-in-from-right { animation: slideInFromRight 0.5s forwards; opacity: 0; }
+    @keyframes slideOutToLeft { from { transform: translateX(0%); opacity: 1; } to { transform: translateX(-100%); opacity: 0; } }
+    @keyframes slideInFromRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0%); opacity: 1; } }
 
     .timer-block { font-size: 1.2em; margin: .5em 0; color: #d23f57; }
     .timer-block span { display: inline-block; font-weight: bold; animation: popNum .5s ease; }
@@ -102,59 +87,45 @@
     .totals { margin-top: 1em; font-size: .95em; color: #555; }
     .totals span { font-weight: bold; color: #d23f57; animation: popNum .5s ease; }
 
-    /* Corações flutuantes (Original - para spawnHeart) */
-    .heart-original { /* Renomeado para evitar conflito com .heart da carta */
-      position: absolute; font-size: 1.2em; color: rgba(255,105,180,0.8); opacity:0; animation:floatUp 4s ease-in forwards; pointer-events:none; 
+    /* Corações flutuantes (spawnRandomFloatingItem) */
+    .heart-original { 
+      position: absolute; font-size: 1.2em; opacity:0; animation:floatUp 4s ease-in forwards; pointer-events:none;  
     }
     @keyframes floatUp { 0%{transform:translateY(0) scale(1);opacity:1} 100%{transform:translateY(-150px) scale(1.5);opacity:0} }
 
-    /* Ajustes mobile (Original) */
+    /* Ajustes mobile */
     @media(max-width: 480px) {
       #content { padding: 1em; }
       .timer-block { font-size: 1em; }
-      /* Ajustes para a carta em mobile, se necessário */
       #envelope { margin: 50px auto; transform: scale(0.9); }
     }
 
     /* CSS da Animação da Carta */
     .envlope-wrapper {
-      height: 380px; /* Altura para conter o envelope, pode precisar de ajuste */
-      display: flex; /* Para centralizar o envelope dentro dele */
+      height: 380px; 
+      display: flex; 
       align-items: center;
       justify-content: center;
-      /* Removido o botão original #btn */
     }
-
     #envelope {
-      /* margin: 150px;  Controlado pelo flex do body e wrapper */
       position: relative;
       width: 280px;
       height: 180px;
       border-bottom-left-radius: 6px;
       border-bottom-right-radius: 6px;
-      /* margin-left: auto; margin-right: auto; Controlado pelo flex */
-      /* top: 150px; Controlado pelo flex */
       background-color: #f9c5c8;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      cursor: pointer; /* Adicionado para indicar que é clicável */
+      cursor: pointer; 
     }
-
-    .front {
-      position: absolute;
-      width: 0;
-      height: 0;
-      z-index: 3;
-    }
-
+    .front { position: absolute; width: 0; height: 0; z-index: 3; }
     .flap {
       border-left: 140px solid transparent;
       border-right: 140px solid transparent;
       border-bottom: 82px solid transparent;
-      border-top: 98px solid #ff3333;
+      border-top: 98px solid #ff3333; /* Cor da aba do envelope */
       transform-origin: top;
       pointer-events: none;
     }
-
     .pocket {
       border-left: 140px solid #ff9999;
       border-right: 140px solid #ff9999;
@@ -163,10 +134,9 @@
       border-bottom-left-radius: 6px;
       border-bottom-right-radius: 6px;
     }
-
     .letter {
       position: relative;
-      background-color: #f9c5c8; /* Cor de fundo da carta interna */
+      background-color: #fdf0f0; /* Cor de fundo da carta interna */
       width: 90%;
       margin-left: auto;
       margin-right: auto;
@@ -175,127 +145,39 @@
       border-radius: 6px;
       box-shadow: 0 2px 26px rgba(0, 0, 0, 0.12);
     }
-
     .letter:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-image: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0) 25%,
-        rgba(239, 215, 239, 0.7) 55%,
-        #eed7ef 100%
-      );
+      content: ""; position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+      background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 25%, rgba(239, 215, 239, 0.7) 55%, #eed7ef 100%);
     }
-
-    .words {
-      position: absolute;
-      left: 10%;
-      width: 80%;
-      height: 14%;
-      background-color: #fdb7ba; /* Cor das linhas de texto na carta */
-    }
-
+    .words { position: absolute; left: 10%; width: 80%; height: 14%; background-color: #fdb7ba; }
     .words.line1 { top: 15%; width: 20%; height: 7%; }
     .words.line2 { top: 30%; }
     .words.line3 { top: 50%; }
     .words.line4 { top: 70%; }
-
-    .open .flap {
-      transform: rotateX(180deg);
-      transition: transform 0.4s ease, z-index 0.6s;
-      z-index: 1;
+    .open .flap { transform: rotateX(180deg); transition: transform 0.4s ease, z-index 0.6s; z-index: 1; }
+    .close .flap { transform: rotateX(0deg); transition: transform 0.4s 0.6s ease, z-index 1s; z-index: 5; }
+    .close .letter { transform: translateY(0px); transition: transform 0.4s ease, z-index 1s; z-index: 1; }
+    .open .letter { transform: translateY(-60px); transition: transform 0.4s 0.6s ease, z-index 0.6s; z-index: 2; }
+    .hearts { position: absolute; top: 90px; left: 0; right: 0; z-index: 2; }
+    .heart { position: absolute; bottom: 0; right: 10%; pointer-events: none; }
+    .heart:before, .heart:after {
+      position: absolute; content: ""; left: 50px; top: 0; width: 50px; height: 80px;
+      background: #d00000; border-radius: 50px 50px 0 0; transform: rotate(-45deg); transform-origin: 0 100%; pointer-events: none;
     }
-
-    .close .flap {
-      transform: rotateX(0deg);
-      transition: transform 0.4s 0.6s ease, z-index 1s;
-      z-index: 5;
-    }
-
-    .close .letter {
-      transform: translateY(0px);
-      transition: transform 0.4s ease, z-index 1s;
-      z-index: 1;
-    }
-
-    .open .letter {
-      transform: translateY(-60px);
-      transition: transform 0.4s 0.6s ease, z-index 0.6s;
-      z-index: 2;
-    }
-
-    .hearts { /* Corações da animação da carta */
-      position: absolute;
-      top: 90px;
-      left: 0;
-      right: 0;
-      z-index: 2;
-    }
-
-    .heart { /* Estilo para os corações da carta */
-      position: absolute;
-      bottom: 0;
-      right: 10%;
-      pointer-events: none;
-    }
-
-    .heart:before,
-    .heart:after {
-      position: absolute;
-      content: "";
-      left: 50px;
-      top: 0;
-      width: 50px;
-      height: 80px;
-      background: #d00000;
-      border-radius: 50px 50px 0 0;
-      transform: rotate(-45deg);
-      transform-origin: 0 100%;
-      pointer-events: none;
-    }
-
-    .heart:after {
-      left: 0;
-      transform: rotate(45deg);
-      transform-origin: 100% 100%;
-    }
-
-    .close .heart { /* Corações da carta inicialmente escondidos */
-      opacity: 0;
-      animation: none;
-    }
-    /* As classes .a1, .a2, .a3 controlam os corações que saem da carta quando ela abre */
-    .open .a1 { /* Garante que os corações da carta só animem quando a classe .open for aplicada */
-      left: 20%; transform: scale(0.6); opacity: 1;
-      animation: slideUpHearts 4s linear 1, sideSwayHearts 2s ease-in-out 4 alternate;
-      animation-fill-mode: forwards; animation-delay: 0.7s;
-    }
-    .open .a2 {
-      left: 55%; transform: scale(1); opacity: 1;
-      animation: slideUpHearts 5s linear 1, sideSwayHearts 4s ease-in-out 2 alternate;
-      animation-fill-mode: forwards; animation-delay: 0.7s;
-    }
-    .open .a3 {
-      left: 10%; transform: scale(0.8); opacity: 1;
-      animation: slideUpHearts 7s linear 1, sideSwayHearts 2s ease-in-out 6 alternate;
-      animation-fill-mode: forwards; animation-delay: 0.7s;
-    }
-
+    .heart:after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+    .close .heart { opacity: 0; animation: none; }
+    .open .a1 { left: 20%; transform: scale(0.6); opacity: 1; animation: slideUpHearts 4s linear 1, sideSwayHearts 2s ease-in-out 4 alternate; animation-fill-mode: forwards; animation-delay: 0.7s; }
+    .open .a2 { left: 55%; transform: scale(1); opacity: 1; animation: slideUpHearts 5s linear 1, sideSwayHearts 4s ease-in-out 2 alternate; animation-fill-mode: forwards; animation-delay: 0.7s; }
+    .open .a3 { left: 10%; transform: scale(0.8); opacity: 1; animation: slideUpHearts 7s linear 1, sideSwayHearts 2s ease-in-out 6 alternate; animation-fill-mode: forwards; animation-delay: 0.7s; }
     @keyframes slideUpHearts { 0% { top: 0; } 100% { top: -600px; } }
     @keyframes sideSwayHearts { 0% { margin-left: 0px; } 100% { margin-left: 50px; } }
     /* Fim do CSS da Animação da Carta */
-
   </style>
 </head>
 <body>
 
   <div class="envlope-wrapper">
-    <div id="envelope" class="close"> <!-- Inicia fechado -->
-      <div class="front flap"></div>
+    <div id="envelope" class="close"> <div class="front flap"></div>
       <div class="front pocket"></div>
       <div class="letter">
         <div class="words line1"></div>
@@ -303,7 +185,7 @@
         <div class="words line3"></div>
         <div class="words line4"></div>
       </div>
-      <div class="hearts"> <!-- Contêiner para os corações que saem da carta -->
+      <div class="hearts">
         <div class="heart a1"></div>
         <div class="heart a2"></div>
         <div class="heart a3"></div>
@@ -316,7 +198,7 @@
   <div id="content">
     <h1>🖤 Juntos desde 05/11/2022 🖤</h1>
     <p id="text-line1">Oi, mozi<br>
-    vamos fazer as pazes, eu te amo muitão você é o meu amorzão eu gosto do seu tetão e do seu chulézão, quero um chamegoso bem totoso do lado do meu amoroso gostoso.
+    Eu te amo, que você sempre saiba disso!<br>
     <p id="text-line2"></p>
     <div class="slideshow-container">
       <img id="slide" src="./fotos/foto1.jpg" alt="Slide">
@@ -331,317 +213,252 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
   <script>
     console.log('Document ready.');
-    const contentDiv = document.getElementById('content'); // Renomeado para evitar conflito com jQuery content
+    const contentDiv = document.getElementById('content');
     const slideElem = document.getElementById('slide');
-    const slides = [
-      "./fotos/foto1.jpg",
-      "./fotos/foto2.jpg",
-      "./fotos/foto3.jpg",
-      "./fotos/foto4.jpg",
-      "./fotos/foto5.jpg",
-      "./fotos/foto6.jpg",
-      "./fotos/foto7.jpg",
-      "./fotos/foto8.jpg",
-      "./fotos/foto9.jpg",
-      "./fotos/foto10.jpg",
-      "./fotos/IMG-20250425-WA0002.jpg",
-      "./fotos/IMG-20250526-WA0028.jpg",
-      "./fotos/IMG-20250526-WA0029.jpg",
-      "./fotos/IMG-20250526-WA0030.jpg",
-      "./fotos/IMG-20250526-WA0031.jpg",
-      "./fotos/IMG-20250526-WA0032.jpg",
-      "./fotos/IMG-20250526-WA0033.jpg",
-      "./fotos/IMG-20250526-WA0034.jpg",
-      "./fotos/IMG-20250526-WA0035.jpg",
-      "./fotos/IMG-20250526-WA0036.jpg",
-      "./fotos/IMG-20250526-WA0037.jpg",
-      "./fotos/IMG-20250526-WA0038.jpg",
-      "./fotos/IMG-20250526-WA0039.jpg",
-      "./fotos/IMG-20250526-WA0040.jpg",
-      "./fotos/IMG-20250526-WA0041.jpg",
-      "./fotos/IMG-20250526-WA0042.jpg",
-      "./fotos/IMG-20250526-WA0043.jpg",
-      "./fotos/IMG-20250526-WA0044.jpg",
-      "./fotos/IMG-20250526-WA0045.jpg",
-      "./fotos/IMG-20250526-WA0046.jpg",
-      "./fotos/IMG-20250526-WA0047.jpg",
-      "./fotos/IMG-20250526-WA0048.jpg",
-      "./fotos/IMG-20250526-WA0049.jpg",
-      "./fotos/IMG-20250526-WA0050.jpg",
-      "./fotos/IMG-20250526-WA0051.jpg",
-      "./fotos/IMG-20250526-WA0052.jpg",
-      "./fotos/IMG-20250526-WA0053.jpg",
-      "./fotos/IMG-20250526-WA0054.jpg",
-      "./fotos/IMG-20250526-WA0055.jpg",
-      "./fotos/IMG-20250526-WA0056.jpg",
-      "./fotos/IMG-20250526-WA0057.jpg",
-      "./fotos/IMG-20250526-WA0058.jpg",
-      "./fotos/IMG-20250526-WA0059.jpg",
-      "./fotos/IMG-20250526-WA0060.jpg",
-      "./fotos/IMG-20250526-WA0061.jpg",
-      "./fotos/IMG-20250526-WA0062.jpg",
-      "./fotos/IMG-20250526-WA0063.jpg",
-      "./fotos/IMG-20250526-WA0064.jpg",
-      "./fotos/IMG-20250526-WA0065.jpg",
-      "./fotos/IMG-20250526-WA0066.jpg",
-      "./fotos/IMG-20250526-WA0067.jpg",
-      "./fotos/IMG-20250526-WA0068.jpg",
-      "./fotos/IMG-20250526-WA0069.jpg",
-      "./fotos/IMG-20250526-WA0070.jpg",
-      "./fotos/IMG-20250526-WA0071.jpg",
-      "./fotos/IMG-20250526-WA0072.jpg",
-      "./fotos/IMG-20250526-WA0073.jpg",
-      "./fotos/IMG-20250526-WA0074.jpg",
-      "./fotos/IMG-20250526-WA0075.jpg",
-      "./fotos/IMG-20250526-WA0076.jpg",
-      "./fotos/IMG-20250526-WA0077.jpg",
-      "./fotos/IMG-20250526-WA0078.jpg",
-      "./fotos/IMG-20250526-WA0079.jpg",
-      "./fotos/IMG-20250526-WA0080.jpg",
-      "./fotos/IMG-20250526-WA0081.jpg",
-      "./fotos/IMG-20250526-WA0082.jpg",
-      "./fotos/IMG-20250526-WA0083.jpg",
-      "./fotos/IMG-20250526-WA0084.jpg",
-      "./fotos/IMG-20250526-WA0085.jpg",
-      "./fotos/IMG-20250526-WA0086.jpg",
-      "./fotos/IMG-20250526-WA0087.jpg",
-      "./fotos/IMG-20250526-WA0088.jpg",
-      "./fotos/IMG-20250526-WA0089.jpg",
-      "./fotos/IMG-20250526-WA0090.jpg",
-      "./fotos/IMG-20250526-WA0091.jpg",
-      "./fotos/IMG-20250526-WA0092.jpg",
-      "./fotos/IMG-20250526-WA0093.jpg",
-      "./fotos/IMG-20250526-WA0094.jpg",
-      "./fotos/IMG-20250526-WA0095.jpg",
-      "./fotos/IMG-20250526-WA0096.jpg",
-      "./fotos/IMG-20250526-WA0097.jpg",
-      "./fotos/IMG-20250526-WA0098.jpg",
-      "./fotos/IMG-20250526-WA0099.jpg",
-      "./fotos/IMG-20250526-WA0100.jpg",
-      "./fotos/IMG-20250526-WA0101.jpg",
-      "./fotos/IMG-20250526-WA0102.jpg",
-      "./fotos/IMG-20250526-WA0103.jpg",
-      "./fotos/IMG-20250526-WA0104.jpg",
-      "./fotos/IMG-20250526-WA0105.jpg",
-      "./fotos/IMG-20250526-WA0106.jpg",
-      "./fotos/IMG-20250526-WA0107.jpg",
-      "./fotos/IMG-20250526-WA0108.jpg",
-      "./fotos/IMG-20250526-WA0109.jpg",
-      "./fotos/IMG-20250526-WA0110.jpg",
-      "./fotos/IMG-20250526-WA0111.jpg",
-      "./fotos/IMG-20250526-WA0112.jpg",
-      "./fotos/IMG-20250526-WA0113.jpg",
-      "./fotos/IMG-20250526-WA0114.jpg",
-      "./fotos/IMG-20250526-WA0115.jpg",
-      "./fotos/IMG-20250526-WA0116.jpg",
-      "./fotos/IMG-20250526-WA0117.jpg",
-      "./fotos/IMG-20250526-WA0118.jpg",
-      "./fotos/IMG-20250526-WA0119.jpg",
-      "./fotos/IMG-20250526-WA0120.jpg",
-      "./fotos/IMG-20250526-WA0121.jpg",
-      "./fotos/IMG-20250526-WA0122.jpg",
-      "./fotos/IMG-20250526-WA0123.jpg",
+    const slides = [ /* Sua lista de fotos continua aqui... como estava antes */
+      "./fotos/foto1.jpg", "./fotos/foto2.jpg", "./fotos/foto3.jpg", "./fotos/foto4.jpg",
+      "./fotos/foto5.jpg", "./fotos/foto6.jpg", "./fotos/foto7.jpg", "./fotos/foto8.jpg",
+      "./fotos/foto9.jpg", "./fotos/foto10.jpg", "./fotos/IMG-20250425-WA0002.jpg",
+      "./fotos/IMG-20250526-WA0028.jpg", "./fotos/IMG-20250526-WA0029.jpg", "./fotos/IMG-20250526-WA0030.jpg",
+      "./fotos/IMG-20250526-WA0031.jpg", "./fotos/IMG-20250526-WA0032.jpg", "./fotos/IMG-20250526-WA0033.jpg",
+      "./fotos/IMG-20250526-WA0034.jpg", "./fotos/IMG-20250526-WA0035.jpg", "./fotos/IMG-20250526-WA0036.jpg",
+      "./fotos/IMG-20250526-WA0037.jpg", "./fotos/IMG-20250526-WA0038.jpg", "./fotos/IMG-20250526-WA0039.jpg",
+      "./fotos/IMG-20250526-WA0040.jpg", "./fotos/IMG-20250526-WA0041.jpg", "./fotos/IMG-20250526-WA0042.jpg",
+      "./fotos/IMG-20250526-WA0043.jpg", "./fotos/IMG-20250526-WA0044.jpg", "./fotos/IMG-20250526-WA0045.jpg",
+      "./fotos/IMG-20250526-WA0046.jpg", "./fotos/IMG-20250526-WA0047.jpg", "./fotos/IMG-20250526-WA0048.jpg",
+      "./fotos/IMG-20250526-WA0049.jpg", "./fotos/IMG-20250526-WA0050.jpg", "./fotos/IMG-20250526-WA0051.jpg",
+      "./fotos/IMG-20250526-WA0052.jpg", "./fotos/IMG-20250526-WA0053.jpg", "./fotos/IMG-20250526-WA0054.jpg",
+      "./fotos/IMG-20250526-WA0055.jpg", "./fotos/IMG-20250526-WA0056.jpg", "./fotos/IMG-20250526-WA0057.jpg",
+      "./fotos/IMG-20250526-WA0058.jpg", "./fotos/IMG-20250526-WA0059.jpg", "./fotos/IMG-20250526-WA0060.jpg",
+      "./fotos/IMG-20250526-WA0061.jpg", "./fotos/IMG-20250526-WA0062.jpg", "./fotos/IMG-20250526-WA0063.jpg",
+      "./fotos/IMG-20250526-WA0064.jpg", "./fotos/IMG-20250526-WA0065.jpg", "./fotos/IMG-20250526-WA0066.jpg",
+      "./fotos/IMG-20250526-WA0067.jpg", "./fotos/IMG-20250526-WA0068.jpg", "./fotos/IMG-20250526-WA0069.jpg",
+      "./fotos/IMG-20250526-WA0070.jpg", "./fotos/IMG-20250526-WA0071.jpg", "./fotos/IMG-20250526-WA0072.jpg",
+      "./fotos/IMG-20250526-WA0073.jpg", "./fotos/IMG-20250526-WA0074.jpg", "./fotos/IMG-20250526-WA0075.jpg",
+      "./fotos/IMG-20250526-WA0076.jpg", "./fotos/IMG-20250526-WA0077.jpg", "./fotos/IMG-20250526-WA0078.jpg",
+      "./fotos/IMG-20250526-WA0079.jpg", "./fotos/IMG-20250526-WA0080.jpg", "./fotos/IMG-20250526-WA0081.jpg",
+      "./fotos/IMG-20250526-WA0082.jpg", "./fotos/IMG-20250526-WA0083.jpg", "./fotos/IMG-20250526-WA0084.jpg",
+      "./fotos/IMG-20250526-WA0085.jpg", "./fotos/IMG-20250526-WA0086.jpg", "./fotos/IMG-20250526-WA0087.jpg",
+      "./fotos/IMG-20250526-WA0088.jpg", "./fotos/IMG-20250526-WA0089.jpg", "./fotos/IMG-20250526-WA0090.jpg",
+      "./fotos/IMG-20250526-WA0091.jpg", "./fotos/IMG-20250526-WA0092.jpg", "./fotos/IMG-20250526-WA0093.jpg",
+      "./fotos/IMG-20250526-WA0094.jpg", "./fotos/IMG-20250526-WA0095.jpg", "./fotos/IMG-20250526-WA0096.jpg",
+      "./fotos/IMG-20250526-WA0097.jpg", "./fotos/IMG-20250526-WA0098.jpg", "./fotos/IMG-20250526-WA0099.jpg",
+      "./fotos/IMG-20250526-WA0100.jpg", "./fotos/IMG-20250526-WA0101.jpg", "./fotos/IMG-20250526-WA0102.jpg",
+      "./fotos/IMG-20250526-WA0103.jpg", "./fotos/IMG-20250526-WA0104.jpg", "./fotos/IMG-20250526-WA0105.jpg",
+      "./fotos/IMG-20250526-WA0106.jpg", "./fotos/IMG-20250526-WA0107.jpg", "./fotos/IMG-20250526-WA0108.jpg",
+      "./fotos/IMG-20250526-WA0109.jpg", "./fotos/IMG-20250526-WA0110.jpg", "./fotos/IMG-20250526-WA0111.jpg",
+      "./fotos/IMG-20250526-WA0112.jpg", "./fotos/IMG-20250526-WA0113.jpg", "./fotos/IMG-20250526-WA0114.jpg",
+      "./fotos/IMG-20250526-WA0115.jpg", "./fotos/IMG-20250526-WA0116.jpg", "./fotos/IMG-20250526-WA0117.jpg",
+      "./fotos/IMG-20250526-WA0118.jpg", "./fotos/IMG-20250526-WA0119.jpg", "./fotos/IMG-20250526-WA0120.jpg",
+      "./fotos/IMG-20250526-WA0121.jpg", "./fotos/IMG-20250526-WA0122.jpg", "./fotos/IMG-20250526-WA0123.jpg",
       "./fotos/IMG-20250526-WA0124.jpg"
     ];
-    let currentSlide = 0; // Renomeado para evitar conflito
+    let currentSlide = 0;
 
     const floatingItemDetails = [
-        { emoji: '💙', color: 'lightblue' }, 
-        { emoji: '🖤', color: 'black' }, 
-        { emoji: '💜', color: 'purple' },
-        { emoji: '📚', color: '#8B4513' }, // Marrom para livro
-        { emoji: '🎮', color: 'darkgrey' },
-        { emoji: '🍥', color: '#FFB6C1' }, // Rosa claro para narutomaki
-        { emoji: '✨', color: 'gold' },
-        { emoji: '👾', color: '#8A2BE2' }, // Roxo azulado para alien
-        { emoji: '👶', color: '#FFDAB9' }, // Peachpuff para bebê
+        { emoji: '💙', color: 'lightblue' }, { emoji: '🖤', color: 'black' }, { emoji: '💜', color: 'purple' },
+        { emoji: '📚', color: '#8B4513' }, { emoji: '🎮', color: 'darkgrey' }, { emoji: '🍥', color: '#FFB6C1' },
+        { emoji: '✨', color: 'gold' }, { emoji: '👾', color: '#8A2BE2' }, { emoji: '👶', color: '#FFDAB9' },
         { emoji: '💍', color: 'silver' }
     ];
+    const heartColors = ['lightblue', 'black', 'purple']; // Para spawnClickHeart
+    const heartEmojis = ['💙', '🖤', '💜']; // Para spawnClickHeart
 
-    const heartColors = ['lightblue', 'black', 'purple'];
-    const heartEmojis = ['💙', '🖤', '💜'];
+
+    // --- INÍCIO DA LÓGICA DO QUIZ ---
+    // Comentário em linha separada para evitar erro de sintaxe
+    const quizQuestions = [
+        {
+            question: "Pergunta 1: Qual foi o destino da nossa primeira viagem juntos como 'nós'? ✈️",
+            answer: "Navegantes"
+        },
+        {
+            question: "Pergunta 2: Qual é o meu filme favorito? Essa é fácil hein",
+            answer: "Interestellar"
+        },
+        {
+            question: "Pergunta 3: Qual é a data (DDMMAAAA) que marca o início da nossa linda história de amor? ❤️",
+            answer: "05112022"
+        },
+        { 
+            question: "Você me ama?", 
+            answer: "sim" 
+        },
+        { 
+            question: "Agora a mais difícil!!! Qual é o meu sonho?", 
+            answer: "Ficar velinho com você",
+            hints: [
+                "Dica 1: Tem a ver com nosso futuro juntos 👴👵",
+                "Dica 2: Envolve envelhecer... 🕰️",
+                "Dica 3: Última dica: Ficar ve... com você 💑"
+            ]
+        }
+    ];
+    
+    // Comentário em linha separada para evitar erro de sintaxe
+    function startQuiz() {
+        alert("Ainda bem que você me ama, prepare-se, meu amor! Para abrir esta carta, você precisará responder a algumas perguntinhas sobre nós. 🥰");
+
+        for (let i = 0; i < quizQuestions.length; i++) {
+            let tentativas = 0;
+            let perguntaAtual = quizQuestions[i];
+            
+            while (tentativas < 3) { // Loop para tentativas por pergunta
+                const userAnswer = prompt(perguntaAtual.question);
+
+                if (userAnswer === null) { // Usuário clicou em Cancelar
+                    alert("Quiz cancelado. Tente novamente quando estiver pronta! 😉 Peidou na farofa meu parceiro");
+                    return false; // Sai do quiz
+                }
+
+                if (userAnswer.trim().toLowerCase() === perguntaAtual.answer.toLowerCase()) {
+                    break; // Resposta correta, sai do loop while e vai para a próxima pergunta no loop for
+                } else {
+                    tentativas++;
+                    if (tentativas < 3) { // Ainda tem tentativas para esta pergunta
+                        if (perguntaAtual.hints && perguntaAtual.hints[tentativas - 1]) {
+                            alert(`Não foi dessa vez! Aqui vai uma dica: ${perguntaAtual.hints[tentativas - 1]}`);
+                        } else if (perguntaAtual.hints) { // Tem hints, mas essa tentativa não tem uma dica específica (já usou as dicas)
+                             alert(`Ops, resposta incorreta! Você tem mais ${3-tentativas} tentativa(s) para esta pergunta.`);
+                        } else { // Não tem hints para esta pergunta
+                            alert(`Não acredito que você errou essa, se fosse eu era tapao hein deusolivre!!`);
+                            return false; // Para perguntas sem dicas, errou na primeira, encerra o quiz.
+                        }
+                    } else { // Acabou as 3 tentativas para esta pergunta (que tinha dicas)
+                        alert(`Não acredito que você errou essa após ${tentativas} tentativas! Se fosse eu era tapao hein deusolivre!!`);
+                        return false; // Sai do quiz
+                    }
+                }
+            }
+            // Se o loop while terminou e tentativas < 3, significa que acertou (saiu pelo break)
+            // Se tentativas >= 3, significa que esgotou as tentativas para a pergunta e já retornou false dentro do else.
+        }
+        alert("Boa minha guerreira! Você acertou todas! Agora pode deleitar-se com o seu site mozi-mozi?");
+        return true; // Todas as perguntas respondidas corretamente
+    }
+    // --- FIM DA LÓGICA DO QUIZ ---
 
 
-    // Função para criar elementos flutuantes aleatórios
     function spawnRandomFloatingItem() {
       const itemDetail = floatingItemDetails[Math.floor(Math.random() * floatingItemDetails.length)];
-      
-      const el = document.createElement('div'); 
-      el.className = 'heart-original'; // Reutiliza a classe e animação
-      el.textContent = itemDetail.emoji;
-      el.style.color = itemDetail.color;
-      el.style.fontSize = (Math.random() * 0.5 + 1.0) + 'em'; // Tamanho um pouco variado (1.0em a 1.5em)
-      el.style.left = Math.random()*90+5 + '%'; // Distribuição um pouco mais ampla
-      el.style.bottom = '0px';
+      const el = document.createElement('div'); el.className = 'heart-original'; 
+      el.textContent = itemDetail.emoji; el.style.color = itemDetail.color;
+      el.style.fontSize = (Math.random() * 0.5 + 1.0) + 'em'; 
+      el.style.left = Math.random()*90+5 + '%'; el.style.bottom = '0px';
       document.body.appendChild(el);
       el.addEventListener('animationend', ()=>el.remove());
     }
 
     function nextSlide() {
-      if (slideElem.classList.contains('slide-out-left') || slideElem.classList.contains('slide-in-from-right')) {
-        // Animação anterior ainda em progresso, evita sobreposição
-        return;
-      }
-
+      if (slideElem.classList.contains('slide-out-left') || slideElem.classList.contains('slide-in-from-right')) return;
       slideElem.classList.add('slide-out-left');
-
       slideElem.addEventListener('animationend', function handleOutAnimation() {
-        slideElem.removeEventListener('animationend', handleOutAnimation); // Limpa o listener
-
+        slideElem.removeEventListener('animationend', handleOutAnimation);
         let nextIndex;
         if (slides.length > 1) {
-          do {
-            nextIndex = Math.floor(Math.random() * slides.length);
-          } while (nextIndex === currentSlide); // Evita repetir a mesma imagem
-        } else {
-          nextIndex = 0; // Se só tiver uma imagem, mostra ela mesma
-        }
-        currentSlide = nextIndex;
-        slideElem.src = slides[currentSlide];
-        
-        // Prepara para a animação de entrada
-        slideElem.classList.remove('slide-out-left');
-        // Força reflow para garantir que a animação de entrada reinicie corretamente
-        void slideElem.offsetWidth; 
+          do { nextIndex = Math.floor(Math.random() * slides.length); } while (nextIndex === currentSlide);
+        } else { nextIndex = 0; }
+        currentSlide = nextIndex; slideElem.src = slides[currentSlide];
+        slideElem.classList.remove('slide-out-left'); void slideElem.offsetWidth; 
         slideElem.classList.add('slide-in-from-right');
-
         slideElem.addEventListener('animationend', function handleInAnimation() {
           slideElem.removeEventListener('animationend', handleInAnimation);
           slideElem.classList.remove('slide-in-from-right');
-        }, { once: true }); // { once: true } para auto-remover após disparar
-
-      }, { once: true }); // { once: true } para auto-remover após disparar
+        }, { once: true });
+      }, { once: true });
     }
 
     const ymdhmsDiv = document.getElementById('ymdhms');
-    const totalDaysElem = document.getElementById('totalDays'); // Renomeado
-    const totalHoursElem = document.getElementById('totalHours'); // Renomeado
-    const totalMinutesElem = document.getElementById('totalMinutes'); // Renomeado
-    const startDate = new Date(2022, 10, 5); // Renomeado
+    const totalDaysElem = document.getElementById('totalDays');
+    const totalHoursElem = document.getElementById('totalHours');
+    const totalMinutesElem = document.getElementById('totalMinutes');
+    const startDate = new Date(2022, 10, 5); // Mês é 0-indexado, então 10 é Novembro
 
     function pad(n) { return n.toString().padStart(2,'0'); }
     function updateTimers() {
-      const now = new Date();
-      const diffMs = now - startDate;
-      const diffSec = Math.floor(diffMs/1000);
-      const diffMin = Math.floor(diffSec/60);
-      const diffHrs = Math.floor(diffMin/60);
-      const diffDays = Math.floor(diffHrs/24);
-      totalDaysElem.textContent = diffDays;
-      totalHoursElem.textContent = diffHrs;
-      totalMinutesElem.textContent = diffMin;
+      const now = new Date(); const diffMs = now - startDate;
+      const diffSec = Math.floor(diffMs/1000); const diffMin = Math.floor(diffSec/60);
+      const diffHrs = Math.floor(diffMin/60); const diffDays = Math.floor(diffHrs/24);
+      totalDaysElem.textContent = diffDays; totalHoursElem.textContent = diffHrs; totalMinutesElem.textContent = diffMin;
       let years = now.getFullYear() - startDate.getFullYear();
       let months = now.getMonth() - startDate.getMonth();
-      let days   = now.getDate()  - startDate.getDate();
+      let days  = now.getDate()  - startDate.getDate();
       if(days<0){months--; days += new Date(now.getFullYear(),now.getMonth(),0).getDate();}
       if(months<0){years--; months+=12;}
-      const remSec = diffSec - diffDays*86400;
-      const hrs    = Math.floor(remSec/3600);
-      const mins   = Math.floor((remSec%3600)/60);
-      const secs   = remSec%60;
+      const remSec = diffSec % 86400; 
+      const hrs = Math.floor(remSec/3600);
+      const mins = Math.floor((remSec%3600)/60);
+      const secs = remSec%60;
       ymdhmsDiv.innerHTML = `${years} <span>anos</span>, ${months} <span>meses</span>, ${days} <span>dias</span>,<br>${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
-      if(Math.random()<0.2 && contentDiv.style.display === 'block') spawnHeartOriginal();
     }
 
-    // setInterval(spawnHeartOriginal, 2000); // Desativado para tela inicial
-
-    // Função para efeito de digitação (corrigida para <br>)
     function typeWriterEffect(element, textToType, speed, callback) {
-        let i = 0;
-        element.innerHTML = ''; // Limpa o conteúdo original
-        
-        function type() {
-            if (i < textToType.length) {
-                // Verifica se o próximo trecho é <br> (case insensitive)
-                if (textToType.substring(i, i + 4).toLowerCase() === '<br>') {
-                    element.innerHTML += '<br>';
-                    i += 4; // Pula os 4 caracteres de '<br>'
-                } else {
-                    element.innerHTML += textToType.charAt(i);
-                    i++;
-                }
-                setTimeout(type, speed);
-            } else {
-                if (callback) callback();
-            }
-        }
-        type();
+      let i = 0; element.innerHTML = ''; 
+      function type() {
+        if (i < textToType.length) {
+          if (textToType.substring(i, i + 4).toLowerCase() === '<br>') {
+            element.innerHTML += '<br>'; i += 4;
+          } else {
+            element.innerHTML += textToType.charAt(i); i++;
+          }
+          setTimeout(type, speed);
+        } else { if (callback) callback(); }
+      }
+      type();
     }
     
-    // Função para criar corações (com cores específicas) na posição do clique
     function spawnClickHeart(x, y) {
         const randomIndex = Math.floor(Math.random() * heartColors.length);
-        const color = heartColors[randomIndex];
-        const emoji = heartEmojis[randomIndex];
-
-        const h = document.createElement('div');
-        h.className = 'heart-original'; 
-        h.textContent = emoji;
-        h.style.color = color;
-        h.style.fontSize = (Math.random() * 0.4 + 0.8) + 'em'; // Um pouco menores ao clicar
-        h.style.position = 'fixed'; 
-        h.style.left = (x - 10) + 'px'; 
-        h.style.top = (y - 10) + 'px';
+        const color = heartColors[randomIndex]; const emoji = heartEmojis[randomIndex];
+        const h = document.createElement('div'); h.className = 'heart-original'; 
+        h.textContent = emoji; h.style.color = color;
+        h.style.fontSize = (Math.random() * 0.4 + 0.8) + 'em'; 
+        h.style.position = 'fixed'; h.style.left = (x - 10) + 'px'; h.style.top = (y - 10) + 'px';
         document.body.appendChild(h);
         h.addEventListener('animationend', () => h.remove());
     }
 
-
-    // Lógica da Carta e Integração
     $(document).ready(function() {
-        var envelope = $('#envelope');
+      var envelope = $('#envelope');
 
-        envelope.click(function() {
-            if (envelope.hasClass("close")) { // Só pede senha se estiver fechada
-                const senha = prompt('Qual é o nosso apelido?');
-                if (senha && senha.toLowerCase() === 'mozi') {
-                    envelope.removeClass("close").addClass("open");
+      envelope.click(function() {
+        if (envelope.hasClass("close")) { 
+          if (startQuiz()) { // Chama a função do quiz
+            envelope.removeClass("close").addClass("open");
+            setTimeout(function() {
+              $('.envlope-wrapper').fadeOut(600, function() {
+                $(this).remove();  
+                contentDiv.style.display = 'block'; 
+                updateTimers();  
+                setInterval(updateTimers, 1000);
+                setInterval(nextSlide, 2000); 
+                setInterval(spawnRandomFloatingItem, 1500); 
 
-                    setTimeout(function() {
-                        $('.envlope-wrapper').fadeOut(600, function() {
-                            $(this).remove(); 
-                            
-                            contentDiv.style.display = 'block'; 
-                            updateTimers(); 
-                            setInterval(updateTimers, 1000);
-                            setInterval(nextSlide, 2000); 
-                            setInterval(spawnRandomFloatingItem, 1500); // Gera um item flutuante aleatório
+                document.body.addEventListener('click', function(event) {
+                  if (contentDiv.style.display !== 'block' || (contentDiv.contains(event.target) && (event.target.tagName === 'BUTTON' || event.target.tagName === 'A' || $(event.target).closest('button, a').length))) {
+                    return;  
+                  }
+                  spawnClickHeart(event.clientX, event.clientY);
+                });
 
-                            // Adiciona listener para corações por clique
-                            document.body.addEventListener('click', function(event) {
-                                if (contentDiv.contains(event.target) && (event.target.tagName === 'BUTTON' || event.target.tagName === 'A' || $(event.target).closest('button, a').length)) {
-                                    return; 
-                                }
-                                spawnClickHeart(event.clientX, event.clientY); // Usa a nova função para cliques
-                            });
-
-                            const music = document.getElementById('backgroundMusic');
-                            if (music) {
-                                music.play().catch(error => console.error("Erro ao tocar música:", error));
-                            }
-
-                            // Inicia efeito de digitação
-                            const p1 = document.getElementById('text-line1');
-                            const p2 = document.getElementById('text-line2');
-                            const text1 = p1.innerHTML; // Guarda o texto original (com <br>)
-                            const text2 = p2.innerHTML;
-                            
-                            // Limpa o conteúdo para o efeito de digitação (innerHTML para manter <br>)
-                            p1.innerHTML = ''; 
-                            p2.innerHTML = '';
-
-                            typeWriterEffect(p1, text1, 75, function() { // 75ms por caractere
-                                setTimeout(function() { // Pequeno delay antes de começar o próximo
-                                    typeWriterEffect(p2, text2, 75);
-                                }, 500);
-                            });
-                        });
-                    }, 1000); 
-                } else if (senha !== null) { 
-                    alert('Senha incorreta!');
+                const music = document.getElementById('backgroundMusic');
+                if (music) {
+                  music.play().catch(error => console.error("Erro ao tocar música:", error));
                 }
-            }
-        });
+
+                const p1 = document.getElementById('text-line1');
+                const p2 = document.getElementById('text-line2');
+                const text1 = p1.innerHTML; 
+                const text2 = p2.innerHTML;
+                p1.innerHTML = ''; p2.innerHTML = '';
+                typeWriterEffect(p1, text1, 75, function() {
+                  setTimeout(function() { typeWriterEffect(p2, text2, 75); }, 500);
+                });
+              });
+            }, 1000); 
+          }
+        }
+      });
     });
   </script>
 
